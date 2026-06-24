@@ -1,0 +1,21 @@
+{
+  "name": "source-credibility-overlay",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Chrome extension and backend API for transparent source credibility signals.",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @sco/shared && npm run build -w @sco/api && npm run build -w @sco/extension",
+    "dev:api": "npm run dev -w @sco/api",
+    "dev:extension": "npm run dev -w @sco/extension",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run build -w @sco/shared && npm run typecheck -w @sco/api && npm run typecheck -w @sco/extension"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

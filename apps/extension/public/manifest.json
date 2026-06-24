@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Source Credibility Overlay",
+  "version": "0.1.0",
+  "description": "Shows transparent credibility signals for the current source.",
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_title": "Source Credibility Overlay"
+  },
+  "background": {
+    "service_worker": "assets/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["assets/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["activeTab", "storage", "tabs"],
+  "host_permissions": ["http://*/*", "https://*/*"]
+}
