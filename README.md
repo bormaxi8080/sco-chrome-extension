@@ -29,6 +29,26 @@ Chrome extension plus backend API for transparent source credibility signals. Th
 - npm 10+
 - Docker and Docker Compose
 
+## Docker Data Directory Configuration
+
+By default, Docker stores container data (including Postgres databases) in its default data directory on the system disk (`/var/lib/docker` on Linux, or inside the Docker Desktop VM on macOS/Windows). This can fill up your system disk over time.
+
+To store Docker data on an external volume instead, configure `DOCKER_DATA_PATH` in your `.env` file:
+
+```bash
+# .env
+DOCKER_DATA_PATH=/Volumes/Transcend/DockerData/sco-chrome-extension
+```
+
+This path is used as a bind mount for the Postgres data directory in `docker-compose.yml`:
+
+```yaml
+volumes:
+  - ${DOCKER_DATA_PATH}/postgres:/var/lib/postgresql/data
+```
+
+The directory will be created automatically when you run `docker compose up`. Make sure the path exists and is writable by your user (and Docker has access to it on macOS/Windows via Docker Desktop's file sharing settings).
+
 ## Quick Start
 
 Install dependencies:
