@@ -1,5 +1,50 @@
 # Source Credibility Overlay
 
+**Chrome extension + TypeScript/Fastify API + PostgreSQL cache.** An MVP for collecting and explaining source-verification signals.
+
+![Source Credibility Overlay interface](https://raw.githubusercontent.com/bormaxi8080/bormaxi8080/main/img/sco.png)
+
+## At a glance
+
+```text
+Chrome extension (Manifest V3)
+        | HTTP / shared RiskCard contract
+        v
+Fastify API ----> RDAP, DNS, TLS and page metadata checks
+        |
+        v
+PostgreSQL risk-card cache
+```
+
+The stack demonstrates API integration, a shared TypeScript contract, browser-extension development, caching, and Docker-based setup. Redis is included in Compose but is not yet used for queues.
+
+**Assessment uses explainable rules, not an AI credibility model.** A risk card supports manual verification; it does not prove that a source is truthful or malicious.
+
+## API example
+
+After starting the local stack:
+
+```bash
+curl http://localhost:8080/v1/domains/example.com/risk-card
+```
+
+Illustrative response excerpt with placeholder values, based on the [shared RiskCard contract](packages/shared/src/index.ts). This is not a live assessment of example.com and omits other contract fields:
+
+```json
+{
+  "domain": "example.com",
+  "status": "partial",
+  "riskLevel": "unknown",
+  "confidence": "low",
+  "summary": "Illustrative placeholder; inspect the actual response and evidence.",
+  "signals": []
+}
+```
+
+The full response groups domain, DNS, TLS, site, redirect, and list-match information with a check timestamp and cache TTL. Signals can include evidence and verification recommendations. Known limitations are listed below.
+
+## Implementation and setup
+
 Chrome extension plus backend API for transparent source credibility signals. The project does not claim that a site is fake or malicious. It collects technical and contextual signals, explains them, and recommends manual verification when risk is elevated.
 
 ## What Is Implemented
